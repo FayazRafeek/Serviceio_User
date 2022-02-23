@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Serviceio</string>
+    <string name="AUTH_PREF_FILE">AUTH_PREF_FILE</string>
+    <string name="IS_LOGIN_KEY">LOGIN_KEY</string>
+</resources>

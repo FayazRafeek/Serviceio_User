@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "461066223863",
+    "project_id": "serviceio-f46a1",
+    "storage_bucket": "serviceio-f46a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:461066223863:android:df9c94316f315ad6df53f2",
+        "android_client_info": {
+          "package_name": "com.anghar.serviceio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "461066223863-700anlb95149ufsm8uoqvkefjkmqsnt7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASN0_r-5PFtWaBNKPHRHmfw5T3b0sH-uo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "461066223863-700anlb95149ufsm8uoqvkefjkmqsnt7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
