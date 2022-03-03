@@ -24,6 +24,7 @@
         <activity android:name=".View.Activity.MainActivity" />
         <activity android:name=".View.Activity.OnBoardActivity" />
         <activity android:name=".View.Activity.AuthActivity"/>
+        <activity android:name=".View.Activity.CategoryActivity" />
     </application>
 
 </manifest>

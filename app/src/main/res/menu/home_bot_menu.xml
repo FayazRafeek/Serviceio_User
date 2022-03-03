@@ -2,15 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item
-        android:id="@+id/nav_message"
-        android:title=""
-        android:icon="@drawable/ic_message"/>
-
-    <item
         android:id="@+id/nav_home"
         android:title=""
         android:enabled="true"
         android:icon="@drawable/ic_home"/>
+
+    <item
+        android:id="@+id/nav_message"
+        android:title=""
+        android:icon="@drawable/ic_message"/>
+
+
 
     <item
         android:id="@+id/nav_profile"
