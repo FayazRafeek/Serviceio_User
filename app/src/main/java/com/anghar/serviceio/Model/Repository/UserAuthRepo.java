@@ -2,6 +2,7 @@ package com.anghar.serviceio.Model.Repository;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
@@ -61,7 +62,7 @@ public class UserAuthRepo {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
-                                                saveAuthState(user,name);
+                                                saveAuthState(user);
                                                 resp.setStatus("SUCCESS");
                                             } else resp.setStatus("ERROR");
                                             regLive.setValue(resp);
@@ -77,28 +78,22 @@ public class UserAuthRepo {
         return regLive;
     }
 
-    //EMAIL VERIFICATION (REGISTER)
-    public LiveData<BasicResponse> verifyUserEmailRegister(String email, String code){
-
-        BasicResponse resp = new BasicResponse("LOADING");
-        MutableLiveData<BasicResponse> regLive = new MutableLiveData<>(resp);
-
-        return regLive;
-    }
 
     //LOGIN
     public LiveData<BasicResponse> startUserLogin(String email,String password) {
 
         BasicResponse resp = new BasicResponse("LOADING");
 
+        Log.d(TAG, "startUserLogin: Called");
         MutableLiveData<BasicResponse> loginLive = new MutableLiveData<>(resp);
 
         firebaseAuth.signInWithEmailAndPassword(email,password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        Log.d(TAG, "****    onComplete: Login success " + task.isSuccessful());
                         if(task.isSuccessful()){
-                            saveAuthState(firebaseAuth.getCurrentUser(),"");
+                            saveAuthState(firebaseAuth.getCurrentUser());
                             resp.setStatus("SUCCESS");
                         }
                         else resp.setStatus("ERROR"); resp.setError(task.getException());
@@ -113,14 +108,13 @@ public class UserAuthRepo {
 
 
     //Save Auth State
-    private Boolean saveAuthState(FirebaseUser user, String name){
+    private Boolean saveAuthState(FirebaseUser user){
 
         if(user != null){
             SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.AUTH_PREF_FILE),Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putBoolean(getString(R.string.IS_LOGIN_KEY), true);
             editor.putString("USER_ID_KEY",user.getUid());
-            editor.putString("USER_NAME_KEY",user.getDisplayName() == null ? name : user.getDisplayName());
             editor.putString("USER_EMAIL_KEY",user.getEmail());
             editor.apply();
             return true;

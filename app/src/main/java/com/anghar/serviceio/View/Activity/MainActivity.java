@@ -57,16 +57,11 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    HomeFragment homeFragment;
     void changeFragment(int pos){
 
-        if(homeFragment == null)
-            homeFragment = new HomeFragment();
-
         getSupportFragmentManager().beginTransaction()
-                .replace(binding.homeFragContainer.getId(),pos == 1? homeFragment : pos == 0 ? new MessageFragment() : new ProfileFragment())
+                .replace(binding.homeFragContainer.getId(),pos == 1? new HomeFragment() : pos == 0 ? new MessageFragment() : new ProfileFragment())
                 .commit();
-
 
     }
 

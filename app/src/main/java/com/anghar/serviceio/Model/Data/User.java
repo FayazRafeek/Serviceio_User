@@ -3,6 +3,10 @@ package com.anghar.serviceio.Model.Data;
 public class User {
 
     String uId, name, email, phone;
+    String userType;
+
+    public User() {
+    }
 
     public User(String uId, String name, String email, String phone) {
         this.uId = uId;
@@ -41,5 +45,13 @@ public class User {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public String getUserType() {
+        return userType;
+    }
+
+    public void setUserType(String userType) {
+        this.userType = userType;
     }
 }

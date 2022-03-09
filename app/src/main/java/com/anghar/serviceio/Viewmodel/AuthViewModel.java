@@ -36,19 +36,8 @@ public class AuthViewModel extends ViewModel {
         return resp;
     }
 
-    public LiveData<BasicResponse> verifyRegsiterEmail(String code){
-        LiveData<BasicResponse> resp =  userAuthRepo.verifyUserEmailRegister(email,code);
-        return resp;
-    }
-
     public LiveData<BasicResponse> startLogin(String email, String password){
-        LiveData<BasicResponse> resp =  userAuthRepo.startUserLogin(email,password);
-        return resp;
-    }
-
-    public LiveData<BasicResponse> startLogin(){
-        LiveData<BasicResponse> resp =  userAuthRepo.startUserLogin(email,password);
-        return resp;
+        return userAuthRepo.startUserLogin(email,password);
     }
 
 
