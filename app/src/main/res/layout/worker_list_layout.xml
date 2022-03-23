@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardElevation="0dp"
+    app:strokeColor="@color/grey_5"
+    app:strokeWidth="2dp"
+    app:cardCornerRadius="13dp"
+    android:padding="12dp"
+    android:layout_marginHorizontal="4dp"
+    android:layout_marginBottom="8dp"
+    >
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:cardCornerRadius="100dp"
+            android:layout_marginTop="14sp"
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/worker_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_profile" />
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+        <TextView
+            android:id="@+id/worker_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="John Denver"
+            android:textColor="@color/black_3"
+            android:layout_marginBottom="4dp"
+            android:layout_gravity="center_horizontal"
+            android:textSize="16sp"/>
+
+        <TextView
+            android:id="@+id/worker_sub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Kochi, India"
+            android:layout_gravity="center_horizontal"
+            android:textColor="@color/grey_5"
+            android:layout_marginBottom="16dp"
+            android:textSize="14sp"/>
+
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+</com.google.android.material.card.MaterialCardView>
