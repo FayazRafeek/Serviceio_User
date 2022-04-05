@@ -45,6 +45,8 @@ public class MessageFragment extends Fragment implements WorkListAdapter.WorkCli
 
         if(userType.equals("USER")){
             fetchUserWorks();
+        } else {
+            fetchInvites();
         }
     }
 
@@ -91,6 +93,52 @@ public class MessageFragment extends Fragment implements WorkListAdapter.WorkCli
         workListAdapter.updateList(works);
         binding.workRecycler.setVisibility(View.VISIBLE);
     }
+
+    void fetchInvites(){
+
+        binding.messSwipe.setRefreshing(true);
+        FirebaseFirestore.getInstance()
+                .collection("Workers")
+                .document(FirebaseAuth.getInstance().getUid())
+                .collection("Invite")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        binding.messSwipe.setRefreshing(false);
+                        if(task.isSuccessful()){
+                            List<Work> works = new ArrayList<>();
+                            for (DocumentSnapshot doc : task.getResult()){
+                                Work work = doc.toObject(Work.class);
+                                works.add(work);
+                            }
+                            updateWorkInviteList(works);
+                        } else {
+                            Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+
+    WorkListAdapter inviteAdapter;
+    void updateWorkInviteList(List<Work> works){
+
+        if(inviteAdapter == null){
+            inviteAdapter = new WorkListAdapter(getContext(),this);
+            binding.workInviteRecycler.setAdapter(inviteAdapter);
+            binding.workInviteRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
+
+        inviteAdapter.updateList(works);
+
+        if(!works.isEmpty()){
+            binding.inviteLabel.setVisibility(View.VISIBLE);
+            binding.workInviteRecycler.setVisibility(View.VISIBLE);
+        }
+
+    }
+
 
     @Override
     public void onWorkClick(Work work) {
