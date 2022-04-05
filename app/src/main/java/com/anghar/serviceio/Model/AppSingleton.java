@@ -1,5 +1,7 @@
 package com.anghar.serviceio.Model;
 
+import com.anghar.serviceio.Model.Data.Worker;
+
 public class AppSingleton {
 
     public static AppSingleton INSTANCE;
@@ -18,5 +20,15 @@ public class AppSingleton {
 
     public String getUserType() {
         return userType;
+    }
+
+    Worker selectedWorker;
+
+    public Worker getSelectedWorker() {
+        return selectedWorker;
+    }
+
+    public void setSelectedWorker(Worker selectedWorker) {
+        this.selectedWorker = selectedWorker;
     }
 }

@@ -29,4 +29,8 @@ public class MainViewModel extends ViewModel {
     public LiveData<BasicResponse> fetchUserData(){
         return userDataRepo.fetchUserData();
     }
+
+    public LiveData<BasicResponse> fetchWorkerData(){
+        return userDataRepo.fetchWorkerData();
+    }
 }

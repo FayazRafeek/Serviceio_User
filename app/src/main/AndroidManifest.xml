@@ -26,6 +26,9 @@
         <activity android:name=".View.Activity.AuthActivity"/>
         <activity android:name=".View.Activity.CategoryActivity" />
         <activity android:name=".View.Activity.WorkerProfileCreateActivity" />
+        <activity android:name=".View.Activity.NewWorkActivity" />
+        <activity android:name=".View.Adapter.WorkListAdapter" />
+        <activity android:name=".View.Activity.WorkerDetailActivity" />
     </application>
 
 </manifest>

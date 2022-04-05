@@ -9,6 +9,8 @@ import androidx.lifecycle.MutableLiveData;
 import com.anghar.serviceio.BaseApplication;
 import com.anghar.serviceio.Model.Data.BasicResponse;
 import com.anghar.serviceio.Model.Data.User;
+import com.anghar.serviceio.Model.Data.Work;
+import com.anghar.serviceio.Model.Data.Worker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -54,6 +56,35 @@ public class UserDataRepo {
 
                         if(task.isSuccessful()){
                             User user = task.getResult().toObject(User.class);
+                            resp.setData(user);
+                            resp.setStatus("SUCCESS");
+                        } else { resp.setStatus("ERROR"); resp.setError(task.getException());}
+
+                        live.setValue(resp);
+                    }
+                });
+
+        return live;
+    }
+
+    public LiveData<BasicResponse> fetchWorkerData(){
+        String userId = firebaseAuth.getUid();
+        if(userId == null) return null;
+
+        MutableLiveData<BasicResponse> live = new MutableLiveData<>();
+        BasicResponse resp = new BasicResponse("LOADING");
+        live.setValue(resp);
+
+        firestore
+                .collection("Workers")
+                .document(userId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+
+                        if(task.isSuccessful()){
+                            Worker user = task.getResult().toObject(Worker.class);
                             resp.setData(user);
                             resp.setStatus("SUCCESS");
                         } else { resp.setStatus("ERROR"); resp.setError(task.getException());}

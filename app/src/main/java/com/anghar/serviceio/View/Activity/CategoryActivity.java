@@ -1,5 +1,6 @@
 package com.anghar.serviceio.View.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
+import com.anghar.serviceio.Model.AppSingleton;
 import com.anghar.serviceio.Model.Data.Worker;
 import com.anghar.serviceio.View.Adapter.WorkerAdaoter;
 import com.anghar.serviceio.databinding.ActivityCategoryBinding;
@@ -21,7 +23,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CategoryActivity extends AppCompatActivity {
+public class CategoryActivity extends AppCompatActivity implements WorkerAdaoter.OnWorkerClick {
 
     ActivityCategoryBinding binding;
     String category;
@@ -82,12 +84,18 @@ public class CategoryActivity extends AppCompatActivity {
     void updateRecycler(List<Worker> list){
 
         if(workerAdaoter == null){
-            workerAdaoter = new WorkerAdaoter(this);
+            workerAdaoter = new WorkerAdaoter(this,this);
             binding.catRecyler.setAdapter(workerAdaoter);
             binding.catRecyler.setLayoutManager(new GridLayoutManager(this,2));
         }
 
         workerAdaoter.updateList(list);
 
+    }
+
+    @Override
+    public void onWorkerClick(Worker worker) {
+        AppSingleton.getINSTANCE().setSelectedWorker(worker);
+        startActivity(new Intent(this,WorkerDetailActivity.class));
     }
 }

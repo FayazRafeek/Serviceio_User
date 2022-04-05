@@ -19,9 +19,11 @@ public class WorkerAdaoter extends RecyclerView.Adapter<WorkerAdaoter.WorkerVH> 
 
     Context context;
     List<Worker> workers = new ArrayList<>();
+    OnWorkerClick listner;
 
-    public WorkerAdaoter(Context context) {
+    public WorkerAdaoter(Context context, OnWorkerClick listner) {
         this.context = context;
+        this.listner = listner;
     }
 
     @NonNull
@@ -43,6 +45,13 @@ public class WorkerAdaoter extends RecyclerView.Adapter<WorkerAdaoter.WorkerVH> 
 
 
         holder.binding.workerName.setText(item.getDisplayName());
+
+        holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                listner.onWorkerClick(item);
+            }
+        });
     }
 
     @Override
@@ -63,5 +72,9 @@ public class WorkerAdaoter extends RecyclerView.Adapter<WorkerAdaoter.WorkerVH> 
             super(binding.getRoot());
             this.binding = binding;
         }
+    }
+
+    public interface OnWorkerClick {
+         void onWorkerClick(Worker worker);
     }
 }

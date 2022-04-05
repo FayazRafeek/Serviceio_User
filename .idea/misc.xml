@@ -9,17 +9,20 @@
         <entry key="app/src/main/res/layout/activity_auth.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_category.xml" value="0.2115036231884058" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2151268115942029" />
+        <entry key="app/src/main/res/layout/activity_new_work.xml" value="0.335" />
         <entry key="app/src/main/res/layout/activity_onboard.xml" value="0.1816123188405797" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/activity_worker_detail.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/layout/activity_worker_prof_create.xml" value="0.25" />
         <entry key="app/src/main/res/layout/category_list_item.xml" value="0.2115036231884058" />
         <entry key="app/src/main/res/layout/dialog_select.xml" value="0.20742753623188406" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_login.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_message.xml" value="0.2115036231884058" />
         <entry key="app/src/main/res/layout/fragment_onboard_info.xml" value="0.1816123188405797" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.2115036231884058" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.1816123188405797" />
+        <entry key="app/src/main/res/layout/work_list_layout.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/layout/worker_list_layout.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/menu/home_bot_menu.xml" value="0.2953125" />
       </map>

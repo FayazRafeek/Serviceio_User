@@ -19,18 +19,20 @@ import androidx.lifecycle.ViewModelProvider;
 import com.anghar.serviceio.Model.AppSingleton;
 import com.anghar.serviceio.Model.Data.BasicResponse;
 import com.anghar.serviceio.Model.Data.User;
+import com.anghar.serviceio.Model.Data.Worker;
 import com.anghar.serviceio.R;
 import com.anghar.serviceio.View.Activity.AuthActivity;
 import com.anghar.serviceio.View.Activity.MainActivity;
 import com.anghar.serviceio.Viewmodel.MainViewModel;
 import com.anghar.serviceio.databinding.FragmentProfileBinding;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileFragment extends Fragment {
 
     FragmentProfileBinding binding;
     MainViewModel mainViewModel;
-    User user;
+    User user; Worker worker;
 
     @Nullable
     @Override
@@ -45,18 +47,35 @@ public class ProfileFragment extends Fragment {
 
         mainViewModel = new ViewModelProvider(getActivity()).get(MainViewModel.class);
 
+        userType = AppSingleton.getINSTANCE().getUserType();
+        if(userType.equals("USER")){
 
-        mainViewModel.fetchUserData().observe(getViewLifecycleOwner(),
-                new Observer<BasicResponse>() {
-                    @Override
-                    public void onChanged(BasicResponse basicResponse) {
-                        switch (basicResponse.getStatus()){
-                            case "LOADING" : showLoading(); break;
-                            case "SUCCESS" : user =(User)basicResponse.getData(); updateUi(); break;
-                            case "ERROR" : showError(basicResponse.getError()); break;
+            mainViewModel.fetchUserData().observe(getViewLifecycleOwner(),
+                    new Observer<BasicResponse>() {
+                        @Override
+                        public void onChanged(BasicResponse basicResponse) {
+                            switch (basicResponse.getStatus()){
+                                case "LOADING" : showLoading(); break;
+                                case "SUCCESS" : user =(User)basicResponse.getData(); updateUi(); break;
+                                case "ERROR" : showError(basicResponse.getError()); break;
+                            }
                         }
-                    }
-                });
+                    });
+        } else {
+            mainViewModel.fetchWorkerData().observe(getViewLifecycleOwner(),
+                    new Observer<BasicResponse>() {
+                        @Override
+                        public void onChanged(BasicResponse basicResponse) {
+                            switch (basicResponse.getStatus()){
+                                case "LOADING" : showLoading(); break;
+                                case "SUCCESS" : worker =(Worker) basicResponse.getData(); updateUi(); break;
+                                case "ERROR" : showError(basicResponse.getError()); break;
+                            }
+                        }
+                    });
+        }
+
+
 
 
         binding.logoutBtn.setOnClickListener(new View.OnClickListener() {
@@ -89,26 +108,44 @@ public class ProfileFragment extends Fragment {
     void updateUi(){
         hideLoading();
 
-        if(user == null){
-            Toast.makeText(getActivity(), "No User Found", Toast.LENGTH_SHORT).show();
-            return;
+        if(userType.equals("USER")){
+            if(user != null){
+                binding.userName.setText(user.getName());
+                binding.userEmail.setText(user.getEmail());
+                binding.userPhone.setText(user.getPhone());
+
+                binding.switchBtn.setVisibility(View.VISIBLE);
+
+                userType = AppSingleton.getINSTANCE().getUserType();
+                user.setUserType(userType);
+
+                binding.userType.setText("User Type : " + user.getUserType());
+                binding.switchBtn.setText("SWITCH TO WORKER");
+            }
+
+        } else {
+
+            if(worker != null){
+                binding.userName.setText(worker.getDisplayName());
+                binding.userPhone.setText(worker.getPhone());
+                binding.userEmail.setText(worker.getWebsite());
+                binding.switchBtn.setVisibility(View.VISIBLE);
+                Glide.with(getActivity())
+                        .load(worker.getProfUrl())
+                        .centerCrop()
+                        .into(binding.profileImage);
+
+
+                binding.userType.setVisibility(View.GONE);
+                binding.userPhone.setVisibility(View.GONE);
+                binding.bio.setText(worker.getBio());
+                binding.category.setText(worker.getCategory());
+                binding.switchBtn.setText("SWITCH TO USER");
+            }
+
         }
 
-        binding.userName.setText(user.getName());
-        binding.userEmail.setText(user.getEmail());
-        binding.userPhone.setText(user.getPhone());
 
-        binding.switchBtn.setVisibility(View.VISIBLE);
-
-        userType = AppSingleton.getINSTANCE().getUserType();
-        user.setUserType(userType);
-
-        binding.userType.setText("User Type : " + user.getUserType());
-
-        if(userType.equals("WORKER"))
-            binding.switchBtn.setText("SWITCH TO USER");
-        else
-            binding.switchBtn.setText("SWITCH TO WORKER");
 
     }
 

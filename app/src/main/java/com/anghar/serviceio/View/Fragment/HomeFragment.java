@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,21 +15,25 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.anghar.serviceio.Model.AppSingleton;
 import com.anghar.serviceio.Model.Data.User;
+import com.anghar.serviceio.Model.Data.Work;
 import com.anghar.serviceio.Model.Data.Worker;
 import com.anghar.serviceio.View.Activity.CategoryActivity;
+import com.anghar.serviceio.View.Activity.NewWorkActivity;
 import com.anghar.serviceio.View.Activity.WorkerProfileCreateActivity;
 import com.anghar.serviceio.View.Adapter.CategoryAdapter;
+import com.anghar.serviceio.View.Adapter.WorkListAdapter;
 import com.anghar.serviceio.databinding.FragmentHomeBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class HomeFragment extends Fragment implements CategoryAdapter.CategoryAction {
+public class HomeFragment extends Fragment implements CategoryAdapter.CategoryAction, WorkListAdapter.WorkClick {
 
     FragmentHomeBinding binding;
     String userType;
@@ -49,8 +54,12 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryAc
         if(userType.equals("USER")){
             checkUserProfileStatus();
             setUpCategiry();
+            binding.newWrkBtn.setVisibility(View.VISIBLE);
         } else {
             checkWorkerProfileStatus();
+            binding.newWrkBtn.setVisibility(View.GONE);
+
+            fetchWorks();
         }
 
 
@@ -60,6 +69,13 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryAc
                 if(userType.equals("WORKER")){
                     startActivity(new Intent(getActivity(), WorkerProfileCreateActivity.class));
                 }
+            }
+        });
+
+        binding.newWrkBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), NewWorkActivity.class));
             }
         });
     }
@@ -164,6 +180,8 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryAc
                             worker = task.getResult().toObject(Worker.class);
 //                            saveUserLocally(user);
                             showUserWelcomeUi();
+
+                            fetchWorks();
                         } else {
                             showUserProfIncpUi();
                         }
@@ -171,4 +189,53 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryAc
                 });
     }
 
+
+    void fetchWorks(){
+
+        if(worker == null) return;
+
+        FirebaseFirestore
+                .getInstance()
+                .collection("Works")
+                .whereEqualTo("category",worker.getCategory())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+
+                        if(task.isSuccessful()){
+
+                            List<Work> works = new ArrayList<>();
+                            for (DocumentSnapshot doc : task.getResult()){
+                                Work work = doc.toObject(Work.class);
+                                works.add(work);
+                            }
+
+                            updtaeWorkrecycler(works);
+                        } else {
+                            Toast.makeText(getActivity(), task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+
+    }
+
+    WorkListAdapter workListAdapter;
+    void updtaeWorkrecycler(List<Work> works){
+
+        if(workListAdapter == null){
+            workListAdapter = new WorkListAdapter(getContext(),this);
+            binding.categoryRecycler.setAdapter(workListAdapter);
+            binding.categoryRecycler.setLayoutManager(new LinearLayoutManager(getContext()));
+        }
+
+        workListAdapter.updateList(works);
+        binding.categoryRecycler.setVisibility(View.VISIBLE);
+
+    }
+
+    @Override
+    public void onWorkClick(Work work) {
+
+    }
 }
