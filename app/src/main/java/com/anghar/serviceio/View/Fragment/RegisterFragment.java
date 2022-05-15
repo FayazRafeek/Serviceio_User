@@ -48,7 +48,6 @@ public class RegisterFragment extends Fragment {
         binding.registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //:TODO Ui Presentation
                 startRegister();
             }
         });
@@ -66,7 +65,15 @@ public class RegisterFragment extends Fragment {
         phone = binding.regPhoneInp.getText().toString();
         password = binding.regPassInp.getText().toString();
 
-        //:TODO Input Validation
+        if(email.equals("")){
+            binding.regEmailLay.setError("Email is required!");
+            return;
+        }
+        if(password.equals("")){
+            binding.regPassLay.setError("Password must be greater than 6 characters");
+            return;
+        }
+
         authViewModel.startRegister(name,email,password,phone)
                 .observe(this, new Observer<BasicResponse>() {
                     @Override
@@ -77,7 +84,7 @@ public class RegisterFragment extends Fragment {
                                 break;
                             case "SUCCESS" :
                                 hideLoading();
-                                Toast.makeText(getActivity(), "Registration was successfull", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Registration was successful", Toast.LENGTH_SHORT).show();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {

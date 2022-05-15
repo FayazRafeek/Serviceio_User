@@ -27,9 +27,11 @@
         <activity android:name=".View.Activity.CategoryActivity" />
         <activity android:name=".View.Activity.WorkerProfileCreateActivity" />
         <activity android:name=".View.Activity.NewWorkActivity" />
-        <activity android:name=".View.Adapter.WorkListAdapter" />
         <activity android:name=".View.Activity.WorkerDetailActivity" />
         <activity android:name=".View.Activity.WorkDetailActivity" />
+        <activity android:name=".View.Activity.NewInterestActivity" />
+        <activity android:name=".View.Activity.ProposalDetailActivity" />
+        <activity android:name=".View.Activity.AllCategoryActivity" />
     </application>
 
 </manifest>

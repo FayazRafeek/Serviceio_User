@@ -3,6 +3,8 @@ package com.anghar.serviceio.View.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -23,6 +25,10 @@ public class SplashActivity extends AppCompatActivity {
 
         Boolean is_logged_in = getSharedPreferences(getString(R.string.AUTH_PREF_FILE),MODE_PRIVATE).getBoolean(getString(R.string.IS_LOGIN_KEY),false);
 
+        Animation animZoomIn = AnimationUtils.loadAnimation(this,
+                R.anim.zoom_in);
+
+        binding.parent.startAnimation(animZoomIn);
 
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -32,6 +38,6 @@ public class SplashActivity extends AppCompatActivity {
                 else startActivity(new Intent(SplashActivity.this,AuthActivity.class));
                 finish();
             }
-        },2000);
+        },1500);
     }
 }

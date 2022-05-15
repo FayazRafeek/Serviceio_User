@@ -45,6 +45,7 @@ public class WorkerAdaoter extends RecyclerView.Adapter<WorkerAdaoter.WorkerVH> 
 
 
         holder.binding.workerName.setText(item.getDisplayName());
+        holder.binding.workerSub.setText(item.getCategory());
 
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override

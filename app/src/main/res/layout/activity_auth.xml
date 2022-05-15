@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/back_2"
     android:layout_height="match_parent">
 
 
@@ -18,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="40dp"
         android:layout_marginBottom="32dp"
-        android:orientation="horizontal"
+        android:orientation="vertical"
         android:weightSum="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -27,31 +28,31 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/login_choose_btn"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/black"
+            android:backgroundTint="@color/blue_8"
             android:textColor="@color/white"
             android:textSize="16dp"
             android:paddingVertical="14dp"
-            app:cornerRadius="12dp"
-            android:layout_marginEnd="4dp"
-            android:text="Sign in" />
+            app:cornerRadius="6dp"
+            android:text="GET STARTED" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/register_choose_btn"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="0dp"
+            android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:paddingVertical="14dp"
-            android:layout_marginStart="4dp"
             app:strokeColor="@color/grey_5"
+            app:backgroundTint="#57F6F6F6"
             android:textColor="@color/grey_10"
+            android:textStyle="bold"
             app:strokeWidth="1dp"
             android:textSize="16dp"
-            app:cornerRadius="12dp"
-            android:text="Sign Up" />
+            app:cornerRadius="6dp"
+            android:text="LOGIN" />
 
     </LinearLayout>
 

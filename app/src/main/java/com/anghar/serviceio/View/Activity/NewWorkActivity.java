@@ -9,8 +9,11 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.anghar.serviceio.Model.AppSingleton;
+import com.anghar.serviceio.Model.Data.Invite;
+import com.anghar.serviceio.Model.Data.User;
 import com.anghar.serviceio.Model.Data.Work;
 import com.anghar.serviceio.Model.Data.Worker;
+import com.anghar.serviceio.R;
 import com.anghar.serviceio.View.Fragment.SelectDialog;
 import com.anghar.serviceio.databinding.ActivityNewWorkBinding;
 import com.bumptech.glide.Glide;
@@ -18,6 +21,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -39,8 +43,8 @@ public class NewWorkActivity extends AppCompatActivity implements SelectDialog.O
         IS_INVITE = getIntent().getBooleanExtra("WORKER_INVITE",false);
         if(IS_INVITE){
             binding.catLay.setVisibility(View.GONE);
-
             updateWorkerProfile();
+            binding.categoryTitle.setText("Invite worker");
         }
 
         binding.catInp.setOnClickListener(new View.OnClickListener() {
@@ -56,6 +60,14 @@ public class NewWorkActivity extends AppCompatActivity implements SelectDialog.O
                 gatherData();
             }
         });
+
+        binding.favBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
     }
 
     Worker worker;
@@ -81,6 +93,7 @@ public class NewWorkActivity extends AppCompatActivity implements SelectDialog.O
         categories.add("Gardening");
         categories.add("Cleaning");
         categories.add("Day Care");
+        categories.add("Other");
 
         new SelectDialog(categories,"Select category",this,"CATEGORY").show(getSupportFragmentManager(),"TAG");
     }
@@ -93,16 +106,34 @@ public class NewWorkActivity extends AppCompatActivity implements SelectDialog.O
         String address = binding.addressInp.getText().toString();
         Boolean isUrgent = binding.urgerntCheck.isChecked();
 
-        Work work = new Work(String.valueOf(System.currentTimeMillis()),category,comp, FirebaseAuth.getInstance().getUid(), address,isUrgent);
+        String userSt = getSharedPreferences(getString(R.string.AUTH_PREF_FILE),MODE_PRIVATE).getString("USER_DATA","");
+        User user = new Gson().fromJson(userSt,User.class);
 
+        if (user == null) {
+            Toast.makeText(this, "User Data unavailable", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Work work = new Work(String.valueOf(System.currentTimeMillis())
+        ,category,comp,user.getuId(),user.getName(),user.getPhone(),user.getEmail(),address,isUrgent,System.currentTimeMillis());
+
+
+        if(category.equals("Other")){
+            String otherCat = binding.otherInp.getText().toString();
+            work.setOtherCat(otherCat);
+        }
         if(IS_INVITE){
+            String inviteId = System.currentTimeMillis() + worker.getWorkerId().substring(0,3);
+            Invite invite = new Invite(inviteId
+                    ,user.getuId(),worker.getWorkerId(),work.getWorkId()
+                    ,user.getName(),user.getPhone(),worker.getDisplayName(),work.getCategory()
+                    ,work,worker,"SENT",System.currentTimeMillis()
+                    );
             FirebaseFirestore
                     .getInstance()
-                    .collection("Workers")
-                    .document(worker.getWorkerId())
-                    .collection("Invite")
-                    .document(work.getWorkId())
-                    .set(work)
+                    .collection("Invites")
+                    .document(inviteId)
+                    .set(invite)
                     .addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
@@ -137,6 +168,12 @@ public class NewWorkActivity extends AppCompatActivity implements SelectDialog.O
     public void onSelectItem(String item, String tag) {
         if(tag.equals("CATEGORY")){
             binding.catInp.setText(item);
+            if(item.equals("Other")){
+                binding.otherCat.setVisibility(View.VISIBLE);
+                binding.otherInp.setText("");
+            } else {
+                binding.otherCat.setVisibility(View.GONE);
+            }
         }
     }
 }

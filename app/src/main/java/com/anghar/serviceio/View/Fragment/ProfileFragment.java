@@ -50,6 +50,10 @@ public class ProfileFragment extends Fragment {
         userType = AppSingleton.getINSTANCE().getUserType();
         if(userType.equals("USER")){
 
+            binding.category.setVisibility(View.GONE);
+            binding.userType.setVisibility(View.GONE);
+            binding.bio.setVisibility(View.GONE);
+            binding.categoryTitle.setText("User Profile");
             mainViewModel.fetchUserData().observe(getViewLifecycleOwner(),
                     new Observer<BasicResponse>() {
                         @Override
@@ -62,6 +66,10 @@ public class ProfileFragment extends Fragment {
                         }
                     });
         } else {
+
+            binding.category.setVisibility(View.VISIBLE);
+            binding.userType.setVisibility(View.GONE);
+            binding.categoryTitle.setText("Worker Profile");
             mainViewModel.fetchWorkerData().observe(getViewLifecycleOwner(),
                     new Observer<BasicResponse>() {
                         @Override

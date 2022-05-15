@@ -17,7 +17,9 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.gson.Gson;
 
 public class UserAuthRepo {
 
@@ -62,7 +64,7 @@ public class UserAuthRepo {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             if(task.isSuccessful()){
-                                                saveAuthState(user);
+                                                saveAuthState(brand);
                                                 resp.setStatus("SUCCESS");
                                             } else resp.setStatus("ERROR");
                                             regLive.setValue(resp);
@@ -93,8 +95,23 @@ public class UserAuthRepo {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         Log.d(TAG, "****    onComplete: Login success " + task.isSuccessful());
                         if(task.isSuccessful()){
-                            saveAuthState(firebaseAuth.getCurrentUser());
-                            resp.setStatus("SUCCESS");
+
+                            firestore.collection("Users")
+                                    .document(firebaseAuth.getCurrentUser().getUid())
+                                    .get()
+                                    .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            Log.d(TAG, "onComplete: Login full complete ");
+                                            if(task.isSuccessful()){
+                                                saveAuthState(task.getResult().toObject(User.class));
+                                                resp.setStatus("SUCCESS");
+                                            } else {
+                                                resp.setStatus("ERROR"); resp.setError(task.getException());
+                                            }
+                                            loginLive.setValue(resp);
+                                        }
+                                    });
                         }
                         else resp.setStatus("ERROR"); resp.setError(task.getException());
 
@@ -108,21 +125,21 @@ public class UserAuthRepo {
 
 
     //Save Auth State
-    private Boolean saveAuthState(FirebaseUser user){
-
+    private Boolean saveAuthState(User user){
         if(user != null){
+            Log.d(TAG, "onComplete: Saving auth state");
             SharedPreferences pref = context.getSharedPreferences(context.getString(R.string.AUTH_PREF_FILE),Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = pref.edit();
             editor.putBoolean(getString(R.string.IS_LOGIN_KEY), true);
-            editor.putString("USER_ID_KEY",user.getUid());
-            editor.putString("USER_EMAIL_KEY",user.getEmail());
-            editor.apply();
+            Gson gson = new Gson();
+            String json = gson.toJson(user);
+            editor.putString("USER_ID_KEY",user.getuId());
+            editor.putString("USER_DATA",json);
+            editor.commit();
             return true;
         } else return false;
 
     }
-
-
 
 
     String getString(int id){ return  context.getString(id);}

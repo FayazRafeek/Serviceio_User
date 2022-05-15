@@ -1,6 +1,8 @@
 package com.anghar.serviceio.View.Fragment;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,11 +16,16 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.anghar.serviceio.Model.AppSingleton;
+import com.anghar.serviceio.Model.Data.Category;
+import com.anghar.serviceio.Model.Data.Invite;
 import com.anghar.serviceio.Model.Data.User;
 import com.anghar.serviceio.Model.Data.Work;
 import com.anghar.serviceio.Model.Data.Worker;
+import com.anghar.serviceio.R;
+import com.anghar.serviceio.View.Activity.AllCategoryActivity;
 import com.anghar.serviceio.View.Activity.CategoryActivity;
 import com.anghar.serviceio.View.Activity.NewWorkActivity;
+import com.anghar.serviceio.View.Activity.WorkDetailActivity;
 import com.anghar.serviceio.View.Activity.WorkerProfileCreateActivity;
 import com.anghar.serviceio.View.Adapter.CategoryAdapter;
 import com.anghar.serviceio.View.Adapter.WorkListAdapter;
@@ -29,6 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -53,12 +61,11 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryAc
 
         if(userType.equals("USER")){
             checkUserProfileStatus();
-            setUpCategiry();
+            fetchCategories();
             binding.newWrkBtn.setVisibility(View.VISIBLE);
         } else {
             checkWorkerProfileStatus();
             binding.newWrkBtn.setVisibility(View.GONE);
-
             fetchWorks();
         }
 
@@ -78,6 +85,13 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryAc
                 startActivity(new Intent(getActivity(), NewWorkActivity.class));
             }
         });
+
+        binding.allCatBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), AllCategoryActivity.class));
+            }
+        });
     }
 
     @Override
@@ -92,31 +106,41 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryAc
 
     }
 
-    CategoryAdapter categoryAdapter;
-    void setUpCategiry(){
+    void fetchCategories(){
 
+        FirebaseFirestore.getInstance().collection("Category")
+                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()){
+                    List<Category> categories = new ArrayList<>();
+                    for(DocumentSnapshot d : task.getResult()){
+                        categories.add(d.toObject(Category.class));
+                    }
+                    setUpCategiry(categories);
+                }
+            }
+        });
+    }
+
+    CategoryAdapter categoryAdapter;
+    void setUpCategiry(List<Category> categories){
         if(categoryAdapter == null){
             categoryAdapter = new CategoryAdapter(getContext(), this);
             binding.categoryRecycler.setAdapter(categoryAdapter);
             binding.categoryRecycler.setLayoutManager(new GridLayoutManager(getContext(),2));
         }
-
-        List<String>  categories = new ArrayList<>();
-        categories.add("Electrical");
-        categories.add("Plumbing");
-        categories.add("Construction");
-        categories.add("Gardening");
-        categories.add("Cleaning");
-        categories.add("Day Care");
-
         categoryAdapter.updateList(categories);
+
+        binding.allCatBtn.setVisibility(View.VISIBLE);
     }
 
 
     @Override
-    public void onCatClick(String category) {
+    public void onCatClick(Category category) {
         Intent intent = new Intent(getActivity(), CategoryActivity.class);
-        intent.putExtra("CATEGORY",category);
+        AppSingleton.getINSTANCE().setSelectedCategory(category);
+        intent.putExtra("CATEGORY",category.getTitle());
         startActivity(intent);
     }
 
@@ -148,11 +172,12 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryAc
 
 
     void showUserWelcomeUi(){
+
         if(user == null && worker == null) return;
         if(userType.equals("USER"))
-            binding.welName.setText(user.getName() + ",");
+            binding.welName.setText(user.getName().split(" ")[0]);
         else
-            binding.welName.setText(worker.getDisplayName() + ",");
+            binding.welName.setText(worker.getDisplayName().split(" ")[0] );
         binding.userWelcomeParent.setVisibility(View.VISIBLE);
         binding.incompParent.setVisibility(View.GONE);
     }
@@ -178,9 +203,8 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryAc
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.isSuccessful() && task.getResult().exists()){
                             worker = task.getResult().toObject(Worker.class);
-//                            saveUserLocally(user);
+                            saveWorkerLocally(worker);
                             showUserWelcomeUi();
-
                             fetchWorks();
                         } else {
                             showUserProfIncpUi();
@@ -232,10 +256,42 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryAc
         workListAdapter.updateList(works);
         binding.categoryRecycler.setVisibility(View.VISIBLE);
 
+        if (works.size() == 0){
+            binding.emptyUi.setVisibility(View.VISIBLE);
+        } else binding.emptyUi.setVisibility(View.GONE);
     }
 
     @Override
     public void onWorkClick(Work work) {
+        AppSingleton.getINSTANCE().setSelectedWork(work);
+        Intent intent = new Intent(getActivity(), WorkDetailActivity.class);
+        intent.putExtra("TYPE",userType);
+        startActivity(intent);
+    }
 
+    @Override
+    public void onInviteClick(Invite work) {
+        AppSingleton.getINSTANCE().setSelectedInvite(work);
+        Intent intent = new Intent(getActivity(), WorkDetailActivity.class);
+        intent.putExtra("WORK_TYPE","INVITE");
+        startActivity(intent);
+    }
+
+    void saveWorkerLocally(Worker worker){
+        SharedPreferences pref = getContext().getSharedPreferences(getContext().getString(R.string.AUTH_PREF_FILE), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(worker);
+        editor.putString("WORKER_DATA",json);
+        editor.commit();
+    }
+
+    void saveUserLocally(User worker){
+        SharedPreferences pref = getContext().getSharedPreferences(getContext().getString(R.string.AUTH_PREF_FILE), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(worker);
+        editor.putString("USER_DATA",json);
+        editor.commit();
     }
 }

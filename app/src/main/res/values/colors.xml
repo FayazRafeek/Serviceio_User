@@ -19,6 +19,7 @@
     //Ob Colors
     <color name="ob_color_1">#B3A2FF</color>
     <color name="ob_color_2">#FFE7B7</color>
+
     <color name="ob_color_3">#FFC2C2</color>
 
     //Theme
@@ -28,4 +29,6 @@
     <color name="blue_1">#C6FDFF</color>
     <color name="blue_8">#3285FF</color>
     <color name="blue_10">#00067C</color>
+
+    <color name="list_color">#FFF4DD</color>
 </resources>

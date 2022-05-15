@@ -6,15 +6,19 @@
         <entry key="app/src/main/res/drawable/tab_indicator_default.xml" value="0.20925925925925926" />
         <entry key="app/src/main/res/drawable/tab_indicator_selected.xml" value="0.30666666666666664" />
         <entry key="app/src/main/res/drawable/tab_selector.xml" value="0.30666666666666664" />
+        <entry key="app/src/main/res/layout/activity_all_category.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/layout/activity_auth.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_category.xml" value="0.2115036231884058" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.2151268115942029" />
-        <entry key="app/src/main/res/layout/activity_new_work.xml" value="0.335" />
+        <entry key="app/src/main/res/layout/activity_new_interest.xml" value="0.20742753623188406" />
+        <entry key="app/src/main/res/layout/activity_new_work.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_onboard.xml" value="0.1816123188405797" />
+        <entry key="app/src/main/res/layout/activity_proposal_detail.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_work_detail.xml" value="0.25" />
         <entry key="app/src/main/res/layout/activity_worker_detail.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/layout/activity_worker_prof_create.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/cat_layout_list.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/layout/category_list_item.xml" value="0.2115036231884058" />
         <entry key="app/src/main/res/layout/dialog_select.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.25" />
@@ -23,6 +27,7 @@
         <entry key="app/src/main/res/layout/fragment_onboard_info.xml" value="0.1816123188405797" />
         <entry key="app/src/main/res/layout/fragment_profile.xml" value="0.2115036231884058" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.1816123188405797" />
+        <entry key="app/src/main/res/layout/interest_list_item.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/layout/work_list_layout.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/layout/worker_list_layout.xml" value="0.20742753623188406" />
         <entry key="app/src/main/res/menu/home_bot_menu.xml" value="0.2953125" />

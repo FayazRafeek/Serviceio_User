@@ -3,6 +3,7 @@ package com.anghar.serviceio.View.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,7 +50,6 @@ public class LoginFragment extends Fragment {
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //:TODO Button disable during login process
                 startLogin();
             }
         });
@@ -62,17 +62,29 @@ public class LoginFragment extends Fragment {
         email = binding.loginEmailInp.getText().toString();
         password = binding.loginPassInp.getText().toString();
 
+        if(email.equals("")){
+            binding.loginEmailInp.setError("Email is required!");
+            return;
+        }
+        if(password.equals("")){
+            binding.loginPassLay.setError("Password must be greater than 6 characters");
+            return;
+        }
+
+        binding.loginProgress.setVisibility(View.VISIBLE);
         authViewModel.startLogin(email,password)
                 .observe(getActivity(), new Observer<BasicResponse>() {
                     @Override
                     public void onChanged(BasicResponse basicResponse) {
+
+                        binding.loginProgress.setVisibility(View.GONE);
                         switch (basicResponse.getStatus()){
                             case "LOADING" :
                                 showLoading();
                                 break;
                             case "SUCCESS" :
                                 hideLoading();
-                                Toast.makeText(getActivity(), "Sign in successfull", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Login successful", Toast.LENGTH_SHORT).show();
                                 new Handler().postDelayed(new Runnable() {
                                     @Override
                                     public void run() {

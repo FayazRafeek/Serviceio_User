@@ -91,6 +91,9 @@ public class CategoryActivity extends AppCompatActivity implements WorkerAdaoter
 
         workerAdaoter.updateList(list);
 
+        if(list.size() == 0){
+            binding.emptyUi.setVisibility(View.VISIBLE);
+        } else binding.emptyUi.setVisibility(View.GONE);
     }
 
     @Override

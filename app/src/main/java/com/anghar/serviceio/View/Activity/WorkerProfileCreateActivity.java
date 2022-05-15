@@ -2,7 +2,9 @@ package com.anghar.serviceio.View.Activity;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -22,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.anghar.serviceio.Model.Data.Worker;
+import com.anghar.serviceio.R;
 import com.anghar.serviceio.View.Fragment.SelectDialog;
 import com.anghar.serviceio.databinding.ActivityWorkerProfCreateBinding;
 import com.google.android.gms.tasks.Continuation;
@@ -32,6 +35,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.google.gson.Gson;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
@@ -141,9 +145,11 @@ public class WorkerProfileCreateActivity extends AppCompatActivity implements Se
     void showCatSelectDialog(){
         categories.add("Electrical");
         categories.add("Plumbing");
-        categories.add("Claning");
-        categories.add("Electrical");
-        categories.add("Electrical");
+        categories.add("Cleaning");
+        categories.add("Construction");
+        categories.add("Day Care");
+        categories.add("Gardening");
+        categories.add("Other");
         new SelectDialog(categories,"Select category : ", this,"CAT").show(getSupportFragmentManager(),"TAG");
     }
 
@@ -151,6 +157,10 @@ public class WorkerProfileCreateActivity extends AppCompatActivity implements Se
     @Override
     public void onSelectItem(String item, String tag) {
         binding.catInp.setText(item);
+        if(item.equals("Other")){
+            binding.otherLay.setVisibility(View.VISIBLE);
+            binding.otherInp.setText("");
+        } else binding.otherLay.setVisibility(View.GONE);
     }
 
     void gatherData(){
@@ -161,12 +171,20 @@ public class WorkerProfileCreateActivity extends AppCompatActivity implements Se
         String bio = binding.bioInp.getText().toString();
         String web = binding.webInp.getText().toString();
         String pin = binding.pinInp.getText().toString();
+        String phone = binding.phoneInp.getText().toString();
+        String city = binding.cityInp.getText().toString();
 
         Worker worker = new Worker();
         worker.setDisplayName(disName);
         worker.setBio(bio);
         worker.setDob(dob);
         worker.setWorkerId(FirebaseAuth.getInstance().getUid());
+        worker.setPincode(pin);
+        worker.setPhone(phone);
+        worker.setCity(phone);
+        if(category.equals("Other")){
+            category = binding.otherInp.getText().toString();
+        }
         worker.setCategory(category);
         worker.setWebsite(web);
         worker.setPincode(web);
@@ -210,6 +228,7 @@ public class WorkerProfileCreateActivity extends AppCompatActivity implements Se
                             new Handler().postDelayed(new Runnable() {
                                 @Override
                                 public void run() {
+                                    saveWorkerLocally(worker);
                                     finish();
                                 }
                             },800);
@@ -241,6 +260,16 @@ public class WorkerProfileCreateActivity extends AppCompatActivity implements Se
             }
         });
     }
+
+    void saveWorkerLocally(Worker worker){
+        SharedPreferences pref = getSharedPreferences(getString(R.string.AUTH_PREF_FILE), Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = pref.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(worker);
+        editor.putString("WORKER_DATA",json);
+        editor.commit();
+    }
+
 
     void showLoadDing(){
         binding.progressParent.setVisibility(View.VISIBLE);

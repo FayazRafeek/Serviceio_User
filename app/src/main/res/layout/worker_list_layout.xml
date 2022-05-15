@@ -16,13 +16,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:padding="14dp"
         >
 
         <com.google.android.material.card.MaterialCardView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             app:cardCornerRadius="100dp"
-            android:layout_marginTop="14sp"
+            android:elevation="2dp"
             android:layout_gravity="center_horizontal"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -44,6 +45,8 @@
             android:layout_height="wrap_content"
             android:text="John Denver"
             android:textColor="@color/black_3"
+            android:layout_marginTop="4dp"
+            android:textStyle="bold"
             android:layout_marginBottom="4dp"
             android:layout_gravity="center_horizontal"
             android:textSize="16sp"/>
@@ -55,7 +58,6 @@
             android:text="Kochi, India"
             android:layout_gravity="center_horizontal"
             android:textColor="@color/grey_5"
-            android:layout_marginBottom="16dp"
             android:textSize="14sp"/>
 
     </androidx.appcompat.widget.LinearLayoutCompat>

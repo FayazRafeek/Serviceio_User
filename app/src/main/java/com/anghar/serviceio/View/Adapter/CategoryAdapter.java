@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.anghar.serviceio.Model.Data.Category;
 import com.anghar.serviceio.R;
 import com.anghar.serviceio.databinding.CategoryListItemBinding;
 
@@ -17,7 +18,7 @@ import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.CategoryVH> {
 
-    List<String> categories = new ArrayList<>();
+    List<Category> categories = new ArrayList<>();
     Context context;
     CategoryAction listner;
 
@@ -36,9 +37,9 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     @Override
     public void onBindViewHolder(@NonNull CategoryVH holder, int position) {
 
-        String cat = categories.get(position);
+        Category cat = categories.get(position);
 
-        holder.binding.catTitle.setText(cat);
+        holder.binding.catTitle.setText(cat.getTitle());
         holder.binding.getRoot().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -46,7 +47,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
             }
         });
 
-        switch (cat){
+        switch (cat.getTitle()){
             case "Construction" : holder.binding.catImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.construction_image)); break;
             case "Plumbing" : holder.binding.catImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.plumbing_image)); break;
             case "Electrical" : holder.binding.catImage.setImageDrawable(ContextCompat.getDrawable(context, R.drawable.electrical_image)); break;
@@ -61,7 +62,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
         return categories.size();
     }
 
-    public void updateList(List<String> category){
+    public void updateList(List<Category> category){
         this.categories = category;
         notifyDataSetChanged();
     }
@@ -77,6 +78,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.Catego
     }
 
     public interface CategoryAction {
-        void onCatClick(String category);
+        void onCatClick(Category category);
     }
 }

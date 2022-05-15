@@ -4,21 +4,28 @@ public class Work {
 
     String workId;
     String category;
-    String complaint;
+    String complaint, otherCat;
     String userId;
+    String username,phone,email;
     String address;
     Boolean isUrgent;
+    Long postedDate;
 
     public Work() {
     }
 
-    public Work(String workId, String category, String complaint, String userId, String address, Boolean isUrgent) {
+
+    public Work(String workId, String category, String complaint, String userId, String username, String phone,String email, String address, Boolean isUrgent, Long postedDate) {
         this.workId = workId;
         this.category = category;
         this.complaint = complaint;
         this.userId = userId;
+        this.username = username;
+        this.phone = phone;
+        this.email = email;
         this.address = address;
         this.isUrgent = isUrgent;
+        this.postedDate = postedDate;
     }
 
     public String getWorkId() {
@@ -67,5 +74,45 @@ public class Work {
 
     public void setUrgent(Boolean urgent) {
         isUrgent = urgent;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public Long getPostedDate() {
+        return postedDate;
+    }
+
+    public void setPostedDate(Long postedDate) {
+        this.postedDate = postedDate;
+    }
+
+    public String getOtherCat() {
+        return otherCat;
+    }
+
+    public void setOtherCat(String otherCat) {
+        this.otherCat = otherCat;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

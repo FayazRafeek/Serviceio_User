@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="New Work"
+            android:text="Post new work"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold"
@@ -71,14 +71,24 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
-                <ImageView
-                    android:id="@+id/worker_image"
+                <com.google.android.material.card.MaterialCardView
                     android:layout_width="50dp"
                     android:layout_height="50dp"
+                    app:cardCornerRadius="100dp"
                     android:layout_margin="12dp"
+                    android:id="@+id/img_parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"
+                    >
+                    <ImageView
+                        android:id="@+id/worker_image"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"/>
+
+                </com.google.android.material.card.MaterialCardView>
+
 
 
                 <TextView
@@ -89,8 +99,8 @@
                     android:textSize="16dp"
                     android:textStyle="bold"
                     android:layout_marginStart="10dp"
-                    app:layout_constraintStart_toEndOf="@+id/worker_image"
-                    app:layout_constraintTop_toTopOf="@+id/worker_image" />
+                    app:layout_constraintStart_toEndOf="@+id/img_parent"
+                    app:layout_constraintTop_toTopOf="@+id/img_parent" />
 
                 <TextView
                     android:id="@+id/worker_cat"
@@ -127,6 +137,27 @@
                 android:focusable="false"
                 android:focusableInTouchMode="false"
                 android:inputType="text">
+
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/other_cat"
+            style="@style/Inplayout.Round"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:hint="Define category"
+            app:boxStrokeColor="#000000"
+            app:endIconMode="custom"
+            android:visibility="gone"
+            app:endIconTint="@color/black">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/other_inp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                >
 
             </com.google.android.material.textfield.TextInputEditText>
         </com.google.android.material.textfield.TextInputLayout>
@@ -187,8 +218,10 @@
 
         <com.google.android.material.button.MaterialButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Submit"
+            android:layout_height="55dp"
+            android:text="Create"
+            app:icon="@drawable/ic_add"
+            app:cornerRadius="6dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="16dp"
             android:id="@+id/submit_btn"/>

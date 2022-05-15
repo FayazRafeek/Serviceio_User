@@ -6,6 +6,7 @@ public class Worker {
     String displayName;
     String phone;
     String dob, website, bio, category, pincode;
+    String city;
     String profUrl;
 
 
@@ -82,5 +83,13 @@ public class Worker {
 
     public void setProfUrl(String profUrl) {
         this.profUrl = profUrl;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

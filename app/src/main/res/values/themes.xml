@@ -33,7 +33,6 @@
         <item name="boxCornerRadiusTopEnd">10dp</item>
         <item name="boxCornerRadiusBottomStart">10dp</item>
         <item name="boxCornerRadiusTopStart">10dp</item>
-        <item name="boxStrokeColor">@color/white</item>
     </style>
     <!--    -->
 

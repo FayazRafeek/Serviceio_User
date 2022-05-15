@@ -67,5 +67,17 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <TextView
+        android:id="@+id/empty_ui"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="No workers found in this category"
+        android:textColor="@color/grey_5"
+        android:textSize="18sp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/cat_sipw" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
