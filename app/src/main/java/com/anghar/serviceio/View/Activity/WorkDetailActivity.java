@@ -255,8 +255,7 @@ public class WorkDetailActivity extends AppCompatActivity implements InterestAda
                             updateUi();
                         }
                     }
-                })
-        ;
+                });
     }
 
     @Override

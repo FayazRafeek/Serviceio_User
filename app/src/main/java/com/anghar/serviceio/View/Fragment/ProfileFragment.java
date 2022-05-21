@@ -176,9 +176,13 @@ public class ProfileFragment extends Fragment {
     }
 
     void startSwitching(){
+
         userType = AppSingleton.getINSTANCE().getUserType();
+
         if(userType.equals("USER")){
+
             AppSingleton.getINSTANCE().setUserType("WORKER");
+
             Toast.makeText(getActivity(), "Switching user to worker...", Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
                 @Override

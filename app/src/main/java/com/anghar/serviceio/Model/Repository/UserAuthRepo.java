@@ -45,7 +45,6 @@ public class UserAuthRepo {
     public LiveData<BasicResponse> startUserRegister(String name,String email,String password, String phone) {
 
         BasicResponse resp = new BasicResponse("LOADING");
-
         MutableLiveData<BasicResponse> regLive = new MutableLiveData<>(resp);
 
         firebaseAuth.createUserWithEmailAndPassword(email,password)

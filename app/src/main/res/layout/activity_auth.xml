@@ -27,7 +27,7 @@
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/login_choose_btn"
+            android:id="@+id/register_choose_btn"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
             android:text="GET STARTED" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/register_choose_btn"
+            android:id="@+id/login_choose_btn"
             android:layout_width="match_parent"
             android:layout_weight="1"
             android:layout_height="wrap_content"

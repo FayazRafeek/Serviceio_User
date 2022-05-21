@@ -36,7 +36,6 @@ public class RegisterFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         authViewModel = new ViewModelProvider(requireActivity()).get(AuthViewModel.class);
 
-
         // Button Click Handles
         binding.loginSwitchBtn.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -108,7 +108,7 @@ public class HomeFragment extends Fragment implements CategoryAdapter.CategoryAc
 
     void fetchCategories(){
 
-        FirebaseFirestore.getInstance().collection("Category")
+        FirebaseFirestore.getInstance().collection("Category").limit(6)
                 .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {

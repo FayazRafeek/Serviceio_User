@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "461066223863",
-    "project_id": "serviceio-f46a1",
-    "storage_bucket": "serviceio-f46a1.appspot.com"
+    "project_number": "1008144735883",
+    "project_id": "serviceio-54e09",
+    "storage_bucket": "serviceio-54e09.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:461066223863:android:df9c94316f315ad6df53f2",
+        "mobilesdk_app_id": "1:1008144735883:android:7faadb19e1e2b0a0b47e8e",
         "android_client_info": {
           "package_name": "com.anghar.serviceio"
         }
       },
       "oauth_client": [
         {
-          "client_id": "461066223863-700anlb95149ufsm8uoqvkefjkmqsnt7.apps.googleusercontent.com",
+          "client_id": "1008144735883-6inhm7qj05ho9kop5snfkb3ajg9lqjmo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.anghar.serviceio",
+            "certificate_hash": "9222cd84ef9c6bf4535aefe5fdfad0ed36a37d01"
+          }
+        },
+        {
+          "client_id": "1008144735883-vtgea121jlflvo0buf4s6ef0ofjunghg.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyASN0_r-5PFtWaBNKPHRHmfw5T3b0sH-uo"
+          "current_key": "AIzaSyCDVbUITjNU6GNV5D82p3RT4KMZkkTgL1o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "461066223863-700anlb95149ufsm8uoqvkefjkmqsnt7.apps.googleusercontent.com",
+              "client_id": "1008144735883-vtgea121jlflvo0buf4s6ef0ofjunghg.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
